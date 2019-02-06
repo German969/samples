@@ -1,0 +1,5 @@
+var modulo = require('./mymodule');
+var texto = require('./textmodule');
+
+modulo.destacar("Hello people");
+console.log(modulo.repetir("=",16));

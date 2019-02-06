@@ -1,0 +1,1 @@
+exports.texto = "Hello people";

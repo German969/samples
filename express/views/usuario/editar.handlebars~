@@ -1,0 +1,4 @@
+<div style="padding-top: 50px">
+Editando 2 {{ usuario.nombre }}
+{{ id }}
+</div>

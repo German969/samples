@@ -1,0 +1,24 @@
+Hola {{{ parrafo }}}
+
+{{#list usuarios}}
+  {{ nombre }} {{ apellido }}
+{{/list}}
+
+{{^usuarios}}
+  No se encontraron usuarios
+{{/usuarios}}
+
+--------------
+{{#if usuarios}}
+  <ul>
+  {{#usuarios}}
+    <li>{{ nombre }}</li>
+  {{/usuarios}}
+  </ul>
+{{else}}
+  Nose encontraron usuarios
+{{/if}}
+--------------
+{{^usuarios}}
+No se encontraron usuarios
+{{/usuarios}}

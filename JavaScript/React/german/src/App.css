@@ -1,0 +1,11 @@
+label{
+	color: black;
+}
+
+.checked>label>span{
+	text-decoration:line-through;
+}
+
+.material-icons{
+	cursor: pointer;
+}

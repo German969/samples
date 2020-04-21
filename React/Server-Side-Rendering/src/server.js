@@ -11,6 +11,8 @@ import { StaticRouter } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
 import createStore, { initializeSession } from "./store";
 
+import Helmet from "react-helmet";
+
 const app = express();
 
 app.use( express.static( path.resolve( __dirname, "../dist" ) ) );
@@ -51,19 +53,23 @@ app.get( "/*", ( req, res ) => {
 
   const reduxState = store.getState();
 
+  const helmetData = Helmet.renderStatic();
+
   res.writeHead(200, { "Content-Type": "text/html" });
-  res.end(htmlTemplate(reactDom, reduxState));
+  res.end(htmlTemplate(reactDom, reduxState, helmetData));
 });
 
 app.listen(2048);
 
-function htmlTemplate(reactDom, reduxState) {
+function htmlTemplate(reactDom, reduxState, helmetData) {
   return `
       <!DOCTYPE html>
       <html>
       <head>
           <meta charset="utf-8">
           <title>React SSR</title>
+          ${ helmetData.title.toString() }
+          ${ helmetData.meta.toString() }
       </head>
         
       <body>

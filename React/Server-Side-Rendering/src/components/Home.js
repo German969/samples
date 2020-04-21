@@ -1,18 +1,16 @@
 import React from "react";
+import { useSelector } from 'react-redux';
 
-export default class Home extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            subtitle: "This is the Home Page!"
-        };
-    }
+function Home () {
+  const state = useSelector(state => state);
+  console.log(state);
 
-    render() {
-        return (
-            <div>
-                <h2>{ this.state.subtitle }</h2>
-            </div>
-        );
-    }
+  return (
+    <div>
+      <h2>This is the Home Page!</h2>
+      <p>LoggedIn: {'' + state.loggedIn}</p>
+    </div>
+  );
 }
+
+export default Home;

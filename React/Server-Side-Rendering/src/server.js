@@ -7,39 +7,52 @@ import Layout from "./components/Layout";
 
 import { StaticRouter } from "react-router-dom";
 
+import { Provider as ReduxProvider } from "react-redux";
+import createStore, { initializeSession } from "./store";
+
 const app = express();
 
 app.use( express.static( path.resolve( __dirname, "../dist" ) ) );
 
 app.get( "/*", ( req, res ) => {
-    const context = { }; // Track potential redirects while rendering DOM (3XX res)
+  const context = {}; // Track potential redirects while rendering DOM (3XX res)
+  const store = createStore(); // If we need to render parts of the DOM based on this state
 
-    const jsx = ( 
+  store.dispatch(initializeSession());
+
+  const jsx = ( 
+    <ReduxProvider store={ store }>
       <StaticRouter context={ context } location={ req.url }>
         <Layout />
       </StaticRouter>
-    );
-    const reactDom = renderToString( jsx );
+    </ReduxProvider>
+  );
+  const reactDom = renderToString( jsx );
 
-    res.writeHead( 200, { "Content-Type": "text/html" } );
-    res.end( htmlTemplate( reactDom ) );
-} );
+  const reduxState = store.getState();
 
-app.listen( 2048 );
+  res.writeHead(200, { "Content-Type": "text/html" });
+  res.end(htmlTemplate(reactDom, reduxState));
+});
 
-function htmlTemplate( reactDom ) {
-    return `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <title>React SSR</title>
-        </head>
+app.listen(2048);
+
+function htmlTemplate(reactDom, reduxState) {
+  return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+          <meta charset="utf-8">
+          <title>React SSR</title>
+      </head>
         
-        <body>
-            <div id="app">${ reactDom }</div>
-            <script src="./app.bundle.js"></script>
-        </body>
-        </html>
-    `;
+      <body>
+          <div id="app">${ reactDom }</div>
+          <script>
+            window.REDUX_DATA = ${ JSON.stringify(reduxState) }
+          </script>
+          <script src="./app.bundle.js"></script>
+      </body>
+      </html>
+  `;
 }

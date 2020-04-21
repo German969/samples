@@ -6,6 +6,7 @@ import { renderToString } from "react-dom/server";
 import Layout from "./components/Layout";
 
 import { StaticRouter } from "react-router-dom";
+// import { matchPath } from "react-router-dom";
 
 import { Provider as ReduxProvider } from "react-redux";
 import createStore, { initializeSession } from "./store";
@@ -19,6 +20,25 @@ app.get( "/*", ( req, res ) => {
   const store = createStore(); // If we need to render parts of the DOM based on this state
 
   store.dispatch(initializeSession());
+
+  /*
+  const dataRequirements =
+    routes
+      .filter(route => matchPath(req.url, route)) // filter matching paths
+      .map(route => route.component) // map to components
+      .filter(comp => comp.serverFetch) // check if component have data requirements
+      .map(comp => store.dispatch(comp.serverFetch())) // dispatch data requirement
+
+  Promise.all(dataRequirements).then(() => {
+    const jsx = (
+      <ReduxProvider store={store}>
+        <StaticRouter context={context} location={req.url}>
+          <Layout />
+        </StaticRouter>
+      </ReduxProvider
+    )
+  });
+  */
 
   const jsx = ( 
     <ReduxProvider store={ store }>

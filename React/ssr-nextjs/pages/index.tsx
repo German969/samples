@@ -1,18 +1,37 @@
-// add links in index.tsx
+import React, { Component } from 'react';
 import Link from 'next/link';
+import { SampleReactTypes } from '../src/redux/types';
+import { connect } from 'react-redux';
 
-const Index = () => (
-  <div>
-    <p>SSR with Next.js+ react + redux + redux-saga + jest</p>
-    { /*static link*/ }
-    <Link href="about">
-      <a>About</a>
-    </Link>
-    { /*dynamic link*/ }
-    <Link href="/product/[id]" as={`/product/${1}`}>
-      <a>Product 1</a>
-    </Link>
-  </div>
-);
+interface Props {
+  data1: Array<any>;
+}
 
-export default Index;
+class Index extends Component<Props, any> {
+  static async getInitialProps({ isServer, store }) {
+    await store.dispatch({ type: SampleReactTypes.SAMEPLE_REACT_TYPE });
+
+    return {};
+  };
+
+  render() {
+    return <>
+    <header>
+      <Link href="about"><a>About</a></Link>
+    </header>
+      <div>
+        <p>SSR with Next.js+ react + redux + redux-saga + jest</p>
+      </div>
+    { this.props.data1 && <span>Data loaded: {this.props.data1.length} items</span> }
+    <ul>
+      <li>
+        <Link href="/product/[id]" as={`/product/${1}`}>
+          <a>Product 1</a>
+        </Link>
+      </li>
+    </ul>
+    </>
+  }
+};
+
+export default connect(state => state)(Index);

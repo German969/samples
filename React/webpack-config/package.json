@@ -1,14 +1,17 @@
 {
   "name": "webpack-config",
   "version": "1.0.0",
-  "description": "",
-  "main": "webpack.config.js",
+  "description": "A Webpack + Babel + React Starter bolerplate",
+  "main": "index.js",
   "scripts": {
+    "start": "webpack-dev-server --open --hot --mode development",
+    "build": "webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "browsersList": "> 1%,last 2 versions",
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",

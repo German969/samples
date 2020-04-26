@@ -7,7 +7,7 @@ export default function Task({ task: { id, title, state }, onArchiveTask, onPinT
       <label className="checkbox">
         <input
           type="checkbox"
-          defaultChacked={state === 'TASK_ARCHIVED'}
+          defaultChecked={state === 'TASK_ARCHIVED'}
           disabled={true}
           name="checked"
         />
